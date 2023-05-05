@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; 
+import { UserList } from '../modelos/user.interface';
 @Injectable({
   providedIn: 'root'
 })
@@ -9,7 +10,7 @@ export class AuthService {
 
   apiurl="http://127.0.0.1:8000"
   GetAll(){
-    return this.http.get(this.apiurl)
+    return this.http.get<UserList[]>(this.apiurl+"/select")
   }
 
   GetUserbyusername(code:any){
@@ -24,5 +25,9 @@ export class AuthService {
   Updateuser(code:any, inputdata:any, ){
     return this.http.put(this.apiurl+"/"+code,inputdata);
   }
+  // TODO: Verificar con el servidor si las credenciales son correctas
+
+
+  
 
 }

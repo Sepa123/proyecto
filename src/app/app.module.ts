@@ -7,12 +7,13 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { MaterialModule } from 'src/material.modules';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { UpdatepopupComponent } from './updatepopup/updatepopup.component';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UserlistingComponent } from './userlisting/userlisting.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
-
+import { CookieService } from 'ngx-cookie-service';
+import { JwtInterceptor } from './interceptor/jwt.interceptor';
+import { DescargaReportesComponent } from './descarga-reportes/descarga-reportes.component';
 
 @NgModule({
   declarations: [
@@ -20,8 +21,8 @@ import { ToastrModule } from 'ngx-toastr';
     HomeComponent,
     LoginComponent,
     RegisterComponent,
-    UpdatepopupComponent,
-    UserlistingComponent
+    UserlistingComponent,
+    DescargaReportesComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +33,14 @@ import { ToastrModule } from 'ngx-toastr';
     HttpClientModule,
     ToastrModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    CookieService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
